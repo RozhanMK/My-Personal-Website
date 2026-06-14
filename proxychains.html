@@ -1,0 +1,215 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <title>Proxychains4</title>
+
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <!-- Tailwind -->
+        <script src="https://cdn.tailwindcss.com"></script>
+
+        <!-- Optional: keep Hyperspace CSS for animations/navbar -->
+        <link rel="stylesheet" href="assets/css/main.css" />
+
+        <style>
+            body {
+                background-color: #0f172a;
+                color: #e5e7eb;
+            }
+
+            .article-content p {
+                margin-bottom: 1.5rem;
+                line-height: 1.9;
+                font-size: 1.05rem;
+                color: #d1d5db;
+            }
+
+            /* make list text match paragraph typography inside articles */
+            .article-content ul,
+            .article-content ol {
+                margin: 0 0 1.5rem 0;     /* same spacing as paragraphs */
+                padding-left: 1.25rem;    /* reasonable left gutter for bullets/numbers */
+                color: #d1d5db;           /* match paragraph color */
+                font-size: 1.05rem;       /* match paragraph size */
+                line-height: 1.9;         /* match paragraph line-height */
+                list-style-position: outside;
+            }
+
+            /* enable visible bullets/numbers (override global reset) */
+            .article-content ul { list-style-type: disc; }
+            .article-content ol { list-style-type: decimal; }
+
+            .article-content li {
+                margin-bottom: 0.5rem;    /* small gap between list items */
+            }
+
+            .article-content ul li::marker,
+            .article-content ol li::marker {
+                color: #d1d5db;           /* match marker color to text */
+                opacity: 0.9;
+            }
+
+            .article-content h2 {
+                margin-top: 3rem;
+                margin-bottom: 1rem;
+                font-size: 1.8rem;
+                font-weight: 700;
+                color: white;
+            }
+
+            .article-content code {
+                background: #1e293b;
+                padding: 0.15rem 0.4rem;
+                border-radius: 0.35rem;
+                color: #93c5fd;
+            }
+
+            /* added: increase horizontal spacing for article content */
+            .article-content {
+                padding-left: 2rem;
+                padding-right: 2rem;
+                box-sizing: border-box;
+            }
+
+            @media (min-width: 980px) {
+                .article-content {
+                    padding-left: 4rem;
+                    padding-right: 4rem;
+                }
+            }
+
+            /* added: increase horizontal padding for the page inner container */
+            .inner {
+                max-width: 980px;
+                margin: 0 auto;
+                padding-left: 1rem;
+                padding-right: 1rem;
+                box-sizing: border-box;
+            }
+
+            @media (min-width: 980px) {
+                .inner {
+                    padding-left: 2.5rem;
+                    padding-right: 2.5rem;
+                }
+            }
+
+            /* center the page title and section headings */
+            .mb-12 { text-align: center; }
+            .mb-12 h1 { margin-left: 0; margin-right: 0; }
+            .article-content h2 { text-align: center; }
+
+            /* keep article text narrower on very wide screens */
+            @media (min-width: 1200px) {
+                .article-content {
+                    max-width: 880px;
+                    margin-left: auto;
+                    margin-right: auto;
+                }
+            }
+
+			
+        </style>
+    </head>
+
+    <body class="is-preload bg-slate-950 text-gray-200">
+
+        <!-- Header -->
+        <header id="header">
+            Proxychains4
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="blog_index.html" class="active">Blog</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <!-- Wrapper -->
+        <div id="wrapper">
+
+            <!-- Main -->
+            <section id="main" class="wrapper">
+                <div class="inner">
+
+                    <!-- Title -->
+                    <div class="mb-12">
+                        <p class="text-cyan-400 text-sm uppercase tracking-widest mb-3">
+                            Tutorial
+                        </p>
+
+                        <h1 class="text-5xl font-bold text-white leading-tight">
+                            Proxychains4
+                        </h1>
+
+                        <p class="mt-6 text-xl text-gray-400 leading-relaxed">
+                            An introuduction to configuring Proxychains4 for increasing your privacy.
+                        </p>
+                    </div>
+
+                    <!-- Article -->
+                    <section class="article-content">
+
+                        <p>If you want to redirect the TCP traffic of one of your applications through socks4, socks5 or HTTP proxies there is a great tool for that. It is used for Linux and UNIX-based systems. Be aware that this tool does not proxy UDP or ICMP (ping).</p>
+
+                        <h2>Use cases</h2>
+                        <p>If you redirect your traffic to pass through an SSH socks tunnel this can change the IP of your packets. Therefore, this tool helps bypassing some internet restrictions. Although you should be careful about DNS leaking — if you don't configure this tool to use <code>proxy_dns</code> your DNS queries will bypass proxychains, exposing your real IP and threatening your privacy.</p>
+
+                        <h2>Installation</h2>
+                        <p>For Debian/Ubuntu systems use this:</p>
+                        <pre><code>sudo apt-get install proxychains4</code></pre>
+
+                        <h2>Configuration</h2>
+                        <p>On Ubuntu, you should edit the config file using this command:</p>
+                        <pre><code>sudo nano /etc/proxychains.conf</code></pre>
+
+                        <p>There are three ways for chaining different proxies:</p>
+                        <ul>
+                            <li>Dynamic</li>
+                            <li>Strict</li>
+                            <li>Round-robin</li>
+                        </ul>
+                        <p>Uncomment the method you want to use in the config file. Also, for those who want to proxy their DNS queries enable <code>proxy_dns</code>. After enabling this, hostname lookups are sent through the proxy chain rather than your system resolver.</p>
+
+                        <h3>Examples</h3>
+<pre><code>socks5  192.168.67.78   1080    lamer   secret
+http    192.168.89.3    8080    justu   hidden
+socks4  192.168.1.49    1080
+http    192.168.39.93   8080</code></pre>
+
+                        <p>It's better to use your own VPS for setting up a proxy server. You can find servers for $2 a month at <a href="https://hostvds.com" target="_blank" rel="noopener noreferrer">hostvds</a>. Remember that free proxy servers can see:</p>
+                        <ul>
+                            <li>Websites you visit</li>
+                            <li>DNS requests</li>
+                            <li>Unencrypted traffic</li>
+                            <li>Metadata such as connection times and destinations</li>
+                        </ul>
+
+                        <h2>Running</h2>
+                        <pre><code>proxychains4 firefox</code></pre>
+                        <p>Now if firefox opens without any error, you should see the IP of your proxy server as your own IP in websites like <a href="https://whatismyipaddress.com" target="_blank" rel="noopener noreferrer">this</a>. Ensure to check for DNS leaks in <a href="https://browserleaks.com/dns" target="_blank" rel="noopener noreferrer">this website</a>.</p>
+
+                        <p>Please note that even if you use your own VPS as a proxy server, it does not make you anonymous because the VPS may know your real IP in their logs and also can track you based on the payment method that you chose. Probably the only negative aspect of using a proxy or VPN is the sense of false security. You must know the difference between privacy and anonymity. Although using a proxy server can stop your ISP from knowing the websites that you visit.</p>
+
+                        <p>Stay private :)</p>
+
+                    </section>
+
+                </div>
+            </section>
+
+        </div>
+
+        <!-- Footer -->
+        <footer id="footer" class="wrapper alt">
+            <div class="inner">
+                <ul class="menu">
+                    <li>&copy; Untitled. All rights reserved.</li>
+                    <li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+                </ul>
+            </div>
+        </footer>
+
+    </body>
+</html>

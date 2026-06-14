@@ -1,0 +1,142 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <title>Blog</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    body {
+      margin: 0;
+      background: #0b0f1a;
+      overflow-x: hidden;
+    }
+
+    /* Aurora gradient layer */
+    .aurora {
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      background:
+                  radial-gradient(circle at 90% 50%, #310333, transparent 60%),
+                  radial-gradient(circle at 50% 80%, #0f172a, transparent 50%);
+      filter: blur(80px);
+      animation: auroraMove 12s ease-in-out infinite alternate;
+    }
+
+    @keyframes auroraMove {
+      0% {
+        transform: translateY(0px) scale(1);
+      }
+      100% {
+        transform: translateY(-30px) scale(1.1);
+      }
+    }
+
+    /* Particle canvas */
+    canvas {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+    }
+  </style>
+</head>
+
+<body class="text-gray-200">
+
+  <!-- Aurora background -->
+  <div class="aurora"></div>
+  <canvas id="particles"></canvas>
+
+  <!-- Header -->
+<header class="border-b border-white/10 backdrop-blur sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between">
+      <a href="blog.html" class="text-white font-bold">Rozhan's Blog</a>
+
+      <nav class="flex gap-6 text-sm">
+        <a href="index.html" class="text-gray-300 hover:text-white">Home</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Content -->
+  <main class="max-w-7xl mx-auto px-6 py-20 relative z-10">
+
+    <h1 class="text-5xl font-bold text-white mb-6">
+      Blog
+    </h1>
+
+    <p class="text-gray-300 mb-12 max-w-2xl">
+      Explore cool tutorials and new ideas.
+    </p>
+
+    <div class="grid md:grid-cols-3 gap-8">
+
+      <a class="p-6 rounded-2xl bg-white/5 border border-white/10 backdrop-blur
+                hover:border-fuchsia-500/40 transition" href="typing_fast.html">
+        <h2 class="text-xl font-bold text-white">How I learned to Type Fast</h2>
+        <p class="text-gray-400 mt-2">Discover the techniques that helped me improve my typing speed.</p>
+      </a>
+
+      <a class="p-6 rounded-2xl bg-white/5 border border-white/10 backdrop-blur
+                hover:border-fuchsia-500/40 transition" href="proxychains.html">
+        <h2 class="text-xl font-bold text-white">Proxychains4</h2>
+        <p class="text-gray-400 mt-2">An introduction to configuring Proxychains4 for increasing your privacy.</p>
+      </a>
+
+      
+    </div>
+  </main>
+
+  <!-- Particle script -->
+  <script>
+    const canvas = document.getElementById("particles");
+    const ctx = canvas.getContext("2d");
+
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    let particles = [];
+
+    for (let i = 0; i < 80; i++) {
+      particles.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        r: Math.random() * 2,
+        dx: (Math.random() - 0.5) * 0.4,
+        dy: (Math.random() - 0.5) * 0.4
+      });
+    }
+
+    function animate() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      ctx.fillStyle = "rgba(255,255,255,0.6)";
+
+      particles.forEach(p => {
+        p.x += p.dx;
+        p.y += p.dy;
+
+        if (p.x < 0 || p.x > canvas.width) p.dx *= -1;
+        if (p.y < 0 || p.y > canvas.height) p.dy *= -1;
+
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fill();
+      });
+
+      requestAnimationFrame(animate);
+    }
+
+    animate();
+
+    window.addEventListener("resize", () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    });
+  </script>
+
+</body>
+</html>
